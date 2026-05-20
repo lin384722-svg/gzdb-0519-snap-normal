@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>春12期（05/19）正常班快照</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f0f4fa; color: #1a2a4a; }
+
+.header {
+  background: linear-gradient(135deg, #1a3a6b 0%, #0f2548 100%);
+  color: white;
+  padding: 20px 24px 16px;
+  position: relative;
+}
+.header h1 { font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+.header .subtitle { font-size: 13px; opacity: 0.75; margin-top: 4px; }
+.header .tag { 
+  display: inline-block; background: rgba(255,255,255,0.15); 
+  border-radius: 12px; padding: 2px 10px; font-size: 11px; margin-top: 8px;
+}
+
+.kpi-bar {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  padding: 16px 24px; background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.kpi-card {
+  flex: 1 1 130px; background: #f8faff; border-radius: 10px;
+  padding: 12px 14px; border-left: 3px solid #1a3a6b;
+  min-width: 120px;
+}
+.kpi-card .label { font-size: 11px; color: #666; margin-bottom: 4px; }
+.kpi-card .value { font-size: 22px; font-weight: 700; color: #1a3a6b; }
+.kpi-card .sub { font-size: 11px; color: #888; margin-top: 2px; }
+
+.section {
+  margin: 16px 16px 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+.section:last-child { margin-bottom: 16px; }
+.section-title {
+  background: #1a3a6b;
+  color: white;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.section-body { padding: 12px 16px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { background: #eef2fb; color: #1a3a6b; font-weight: 600; padding: 8px 10px; text-align: center; border-bottom: 2px solid #d0daf0; }
+td { padding: 7px 10px; text-align: center; border-bottom: 1px solid #f0f2f8; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #f8faff; }
+td.left { text-align: left; }
+td.bold { font-weight: 700; color: #1a3a6b; }
+td.red { color: #e53e3e; font-weight: 600; }
+.total-row td { background: #eef2fb; font-weight: 700; color: #1a3a6b; }
+
+.progress-bar-wrap { background: #e8edf5; border-radius: 6px; height: 8px; width: 100%; min-width: 80px; overflow: hidden; }
+.progress-bar-fill { height: 8px; border-radius: 6px; background: linear-gradient(90deg, #1a3a6b, #3a6bc0); }
+
+.amaze-note { font-size: 11px; color: #888; padding: 6px 16px 10px; font-style: italic; }
+
+/* ⑤ 达人表 - 可折叠 */
+details { border-bottom: 1px solid #f0f2f8; }
+details:last-child { border-bottom: none; }
+summary {
+  cursor: pointer; padding: 9px 14px;
+  font-size: 12px; font-weight: 600; color: #1a3a6b;
+  background: #f4f7fd;
+  list-style: none;
+  display: flex; align-items: center; justify-content: space-between;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after { content: '▶'; font-size: 10px; color: #888; transition: transform 0.2s; }
+details[open] summary::after { transform: rotate(90deg); }
+details table { width: 100%; }
+
+/* ⑦ 城市色条 */
+.city-bar-wrap { display: flex; flex-direction: column; gap: 6px; padding: 4px 0; }
+.city-row { display: flex; align-items: center; gap: 10px; }
+.city-label { width: 60px; font-size: 12px; color: #333; text-align: right; flex-shrink: 0; }
+.city-bar { flex: 1; display: flex; height: 22px; border-radius: 4px; overflow: hidden; }
+.city-seg { display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; font-weight: 600; overflow: hidden; }
+.city-total { width: 35px; font-size: 12px; color: #555; text-align: right; flex-shrink: 0; }
+.seg-c9 { background: #1a3a6b; }
+.seg-c10 { background: #3a6bc0; }
+.seg-c11 { background: #6a9be0; }
+
+/* T+2 双栏 */
+.t2-wrap { display: flex; gap: 12px; flex-wrap: wrap; }
+.t2-col { flex: 1 1 240px; }
+.t2-col h4 { font-size: 12px; color: #666; margin-bottom: 8px; }
+
+@media (max-width: 600px) {
+  .kpi-bar { padding: 12px 16px; gap: 8px; }
+  .kpi-card { flex: 1 1 100px; padding: 10px 12px; }
+  .kpi-card .value { font-size: 18px; }
+  .section { margin: 10px 10px 0; }
+  .header { padding: 16px 16px 12px; }
+  .header h1 { font-size: 17px; }
+  table { font-size: 11px; }
+  td, th { padding: 6px 7px; }
+  .city-label { width: 48px; font-size: 11px; }
+  .t2-wrap { flex-direction: column; }
+  /* 宽表格横滑 */
+  .overflow-x { overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>春12期（05/19）正常班快照</h1>
+  <div class="subtitle">数据截至 2026-05-19 | T+1 年级进量来自 amaze 截图</div>
+  <div class="tag">正常班口径</div>
+</div>
+
+<!-- KPI 栏 - 05/19 当日数据 -->
+<div class="kpi-bar">
+  <div class="kpi-card">
+    <div class="label">总订单（当日全量）</div>
+    <div class="value">385</div>
+    <div class="sub">05/19 全渠道</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">非退款订单</div>
+    <div class="value">320</div>
+    <div class="sub">已关闭 65 单</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">正常班进量</div>
+    <div class="value">298</div>
+    <div class="sub">当日新进正常班</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">退款率</div>
+    <div class="value">16.9%</div>
+    <div class="sub">当日全量分母</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">加微率</div>
+    <div class="value">73.8%</div>
+    <div class="sub">正常班分母</div>
+  </div>
+  <div class="kpi-card">
+    <div class="label">主动加微率</div>
+    <div class="value">61.4%</div>
+    <div class="sub">正常班分母</div>
+  </div>
+</div>
+
+<!-- ① amaze 实时进量 -->
+<div class="section">
+  <div class="section-title">① amaze 实时进量</div>
+  <div class="section-body">
+    <div class="overflow-x">
+    <table>
+      <thead>
+        <tr>
+          <th>年级</th>
+          <th>实时进量</th>
+          <th>目标</th>
+          <th>实时进度达成</th>
+          <th>进度条</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="left bold">初三</td>
+          <td class="bold">1394</td>
+          <td>2,805</td>
+          <td>49.7%</td>
+          <td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:49.7%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="left bold">高一</td>
+          <td class="bold">128</td>
+          <td>330</td>
+          <td>38.8%</td>
+          <td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:38.8%"></div></div></td>
+        </tr>
+        <tr>
+          <td class="left bold">高二</td>
+          <td class="bold">64</td>
+          <td>165</td>
+          <td>38.8%</td>
+          <td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:38.8%"></div></div></td>
+        </tr>
+        <tr class="total-row">
+          <td class="left">总计</td>
+          <td>1586</td>
+          <td>3,300</td>
+          <td>48.1%</td>
+          <td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:48.1%"></div></div></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="amaze-note">* amaze 实时数据来自截图，与 CSV 口径略有差异</div>
+</div>
+
+<!-- ② 渠道对比表（05/19 当日）-->
+<div class="section">
+  <div class="section-title">② 渠道对比表（05/19 当日）</div>
+  <div class="section-body">
+    <div class="overflow-x">
+    <table>
+      <thead>
+        <tr>
+          <th>渠道</th>
+          <th>正常班单量</th>
+          <th>加微率</th>
+          <th>主动加微率</th>
+          <th>退款率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="total-row">
+          <td class="left">大盘</td>
+          <td>298</td>
+          <td>73.8%</td>
+          <td>61.4%</td>
+          <td>16.9%</td>
+        </tr>
+        <tr>
+          <td class="left">最小年轮</td>
+          <td>289</td>
+          <td>73.7%</td>
+          <td class="red">61.2% 🔴</td>
+          <td class="red">16.9% 🔴</td>
+        </tr>
+        <tr>
+          <td class="left">合肥徽起</td>
+          <td>3</td>
+          <td>100.0%</td>
+          <td>66.7%</td>
+          <td class="red">25.0% 🔴</td>
+        </tr>
+        <tr>
+          <td class="left">申坤</td>
+          <td>1</td>
+          <td>100.0%</td>
+          <td>100.0%</td>
+          <td>0.0%</td>
+        </tr>
+        <tr>
+          <td class="left">山东深山</td>
+          <td>1</td>
+          <td>0.0%</td>
+          <td class="red">0.0% 🔴</td>
+          <td>0.0%</td>
+        </tr>
+        <tr>
+          <td class="left">自然流</td>
+          <td>4</td>
+          <td>75.0%</td>
+          <td>75.0%</td>
+          <td>16.7%</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ③ 年级流量达成 T+1 -->
+<div class="section">
+  <div class="section-title">③ 年级流量达成 T+1（截图数据）</div>
+  <div class="section-body">
+    <div class="overflow-x">
+    <table>
+      <thead>
+        <tr>
+          <th>年级</th>
+          <th>预估流量</th>
+          <th>总进度</th>
+          <th>剩余预期流速</th>
+          <th>实际流速</th>
+          <th>总进量</th>
+          <th>5/14</th>
+          <th>5/15</th>
+          <th>5/16</th>
+          <th>5/17</th>
+          <th>5/18</th>
+          <th>5/19</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="left bold">新高一</td>
+          <td>2805</td>
+          <td>46%</td>
+          <td><span style="font-weight:700">751</span>/天<br><span style="font-size:10px;color:#888">近3日均: 255</span></td>
+          <td>255/天</td>
+          <td class="bold">1304</td>
+          <td>143</td><td>226</td><td>204</td><td>227</td><td>241</td><td class="bold">263</td>
+        </tr>
+        <tr>
+          <td class="left bold">新高二</td>
+          <td>330</td>
+          <td>36%</td>
+          <td><span style="font-weight:700">106</span>/天<br><span style="font-size:10px;color:#888">近3日均: 24</span></td>
+          <td>24/天</td>
+          <td class="bold">119</td>
+          <td>11</td><td>18</td><td>17</td><td>23</td><td>29</td><td class="bold">21</td>
+        </tr>
+        <tr>
+          <td class="left bold">新高三</td>
+          <td>165</td>
+          <td>36%</td>
+          <td><span style="font-weight:700">53</span>/天<br><span style="font-size:10px;color:#888">近3日均: 13</span></td>
+          <td>13/天</td>
+          <td class="bold">59</td>
+          <td>3</td><td>12</td><td>4</td><td>11</td><td>15</td><td class="bold">14</td>
+        </tr>
+        <tr class="total-row">
+          <td class="left">总计</td>
+          <td>3300</td>
+          <td>45%</td>
+          <td><span style="font-weight:700">909</span>/天<br><span style="font-size:10px;color:#888">近3日均: 292</span></td>
+          <td>292/天</td>
+          <td>1482</td>
+          <td>157</td><td>256</td><td>225</td><td>261</td><td>285</td><td>298</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="amaze-note">* 数据来自 amaze 截图（T+1）</div>
+</div>
+
+<!-- ④ 渠道×年级交叉表 -->
+<div class="section">
+  <div class="section-title">④ 渠道和年级进量（05/19 当日正常班）</div>
+  <div class="section-body">
+    <div class="overflow-x">
+    <table>
+      <thead>
+        <tr>
+          <th>渠道</th>
+          <th>合计</th>
+          <th>初三</th>
+          <th>新高一</th>
+          <th>新高二</th>
+          <th>新高三</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="total-row">
+          <td class="left">合计</td>
+          <td>298</td>
+          <td>263</td>
+          <td>21</td>
+          <td>14</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td class="left">最小年轮</td>
+          <td class="bold">289</td>
+          <td>258</td>
+          <td>19</td>
+          <td>12</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td class="left">合肥徽起</td>
+          <td>3</td>
+          <td>0</td>
+          <td>1</td>
+          <td>2</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td class="left">申坤</td>
+          <td>1</td>
+          <td>0</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td class="left">山东深山</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td class="left">自然流</td>
+          <td>4</td>
+          <td>4</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ 分达人进量（按渠道可折叠，默认折叠）-->
+<div class="section">
+  <div class="section-title">⑤ 分达人进量（05/19 当日，按渠道可展开）</div>
+
+  <!-- 最小年轮 -->
+  <details>
+    <summary>
+      <span>最小年轮 <span style="font-weight:400;color:#555">（正常班 289 单）</span></span>
+    </summary>
+    <div style="width:100%;overflow-x:auto;">
+    <table style="width:100%">
+      <thead>
+        <tr><th>达人名称</th><th>正常班</th><th>加微率</th><th>主动加微率</th><th>退款率</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="left">李老师讲初升高</td><td>68</td><td>82%</td><td>62%</td><td>13%</td></tr>
+        <tr><td class="left">千佰惠公司聂老师</td><td>41</td><td>78%</td><td>66%</td><td class="red">18% 🔴</td></tr>
+        <tr><td class="left">李主任聊升学</td><td>25</td><td>48%</td><td class="red">32% 🔴</td><td class="red">24% 🔴</td></tr>
+        <tr><td class="left">初升高升学规划.</td><td>20</td><td>70%</td><td>65%</td><td>17%</td></tr>
+        <tr><td class="left">一线王老师讲选科</td><td>17</td><td>71%</td><td>65%</td><td>14%</td></tr>
+        <tr><td class="left">王老师说选科</td><td>16</td><td>94%</td><td>81%</td><td class="red">23% 🔴</td></tr>
+        <tr><td class="left">行知老师讲规划</td><td>14</td><td>79%</td><td>64%</td><td class="red">18% 🔴</td></tr>
+        <tr><td class="left">田老师讲选科</td><td>10</td><td>100%</td><td>100%</td><td>17%</td></tr>
+        <tr><td class="left">郝老师聊选科-行知</td><td>8</td><td>88%</td><td>88%</td><td>0%</td></tr>
+        <tr><td class="left">初升高规划闫老师</td><td>7</td><td>100%</td><td>71%</td><td>0%</td></tr>
+        <tr><td class="left">升学考试洋老师</td><td>7</td><td>29%</td><td class="red">29% 🔴</td><td class="red">22% 🔴</td></tr>
+        <tr><td class="left">蔡稳稳</td><td>7</td><td>0%</td><td class="red">0% 🔴</td><td>0%</td></tr>
+        <tr><td class="left">升学规划.田雨</td><td>6</td><td>67%</td><td class="red">50% 🔴</td><td>0%</td></tr>
+        <tr><td class="left">慧智升学</td><td>6</td><td>67%</td><td class="red">50% 🔴</td><td>14%</td></tr>
+        <tr><td class="left">升学规划指导-马老师</td><td>6</td><td>50%</td><td class="red">50% 🔴</td><td class="red">36% 🔴</td></tr>
+        <tr><td class="left">晶晶老师升学规划</td><td>5</td><td>80%</td><td>80%</td><td>17%</td></tr>
+        <tr><td class="left">小张老师</td><td>4</td><td>75%</td><td class="red">50% 🔴</td><td>17%</td></tr>
+        <tr><td class="left">珊伊老师讲高考</td><td>4</td><td>75%</td><td>75%</td><td class="red">20% 🔴</td></tr>
+        <tr><td class="left">刘老师讲中考a</td><td>4</td><td>75%</td><td>75%</td><td>12%</td></tr>
+        <tr><td class="left">初升高升学规划</td><td>3</td><td>67%</td><td class="red">33% 🔴</td><td>0%</td></tr>
+        <tr><td class="left">小严老师初高阶提升课堂</td><td>3</td><td>100%</td><td>67%</td><td>0%</td></tr>
+        <tr><td class="left">王老师升学</td><td>3</td><td>67%</td><td>67%</td><td>0%</td></tr>
+        <tr><td class="left">高阶二规划</td><td>2</td><td>100%</td><td>100%</td><td class="red">67% 🔴</td></tr>
+        <tr><td class="left">王老师聊升学</td><td>2</td><td>50%</td><td class="red">50% 🔴</td><td>0%</td></tr>
+        <tr><td class="left">董老师讲选科</td><td>1</td><td>100%</td><td>100%</td><td class="red">50% 🔴</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 合肥徽起 -->
+  <details>
+    <summary>
+      <span>合肥徽起 <span style="font-weight:400;color:#555">（正常班 3 单）</span></span>
+    </summary>
+    <div style="width:100%;overflow-x:auto;">
+    <table style="width:100%">
+      <thead>
+        <tr><th>达人名称</th><th>正常班</th><th>加微率</th><th>主动加微率</th><th>退款率</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="left">初升高入团规划大课堂</td><td>3</td><td>100%</td><td>67%</td><td class="red">25% 🔴</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 申坤 -->
+  <details>
+    <summary>
+      <span>申坤 <span style="font-weight:400;color:#555">（正常班 1 单）</span></span>
+    </summary>
+    <div style="width:100%;overflow-x:auto;">
+    <table style="width:100%">
+      <thead>
+        <tr><th>达人名称</th><th>正常班</th><th>加微率</th><th>主动加微率</th><th>退款率</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="left">博哥讲高阶推理</td><td>1</td><td>100%</td><td>100%</td><td>0%</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 山东深山 -->
+  <details>
+    <summary>
+      <span>山东深山 <span style="font-weight:400;color:#555">（正常班 1 单）</span></span>
+    </summary>
+    <div style="width:100%;overflow-x:auto;">
+    <table style="width:100%">
+      <thead>
+        <tr><th>达人名称</th><th>正常班</th><th>加微率</th><th>主动加微率</th><th>退款率</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="left">徐老师讲升学(欢喜）</td><td>1</td><td>0%</td><td class="red">0% 🔴</td><td>0%</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+
+  <!-- 自然流 -->
+  <details>
+    <summary>
+      <span>自然流 <span style="font-weight:400;color:#555">（正常班 4 单）</span></span>
+    </summary>
+    <div style="width:100%;overflow-x:auto;">
+    <table style="width:100%">
+      <thead>
+        <tr><th>达人ID</th><th>正常班</th><th>加微率</th><th>主动加微率</th><th>退款率</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="left">837205243470218</td><td>3</td><td>100%</td><td>100%</td><td>0%</td></tr>
+        <tr><td class="left">（无达人ID）</td><td>1</td><td>0%</td><td class="red">0% 🔴</td><td class="red">33% 🔴</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </details>
+</div>
+
+<!-- ⑥ T+2活跃率 -->
+<div class="section">
+  <div class="section-title">⑥ T+2 活跃率</div>
+  <div class="section-body">
+    <div class="t2-wrap">
+      <div class="t2-col">
+        <h4>按渠道</h4>
+        <table>
+          <thead><tr><th>渠道</th><th>活跃率</th><th>进度条</th></tr></thead>
+          <tbody>
+            <tr><td class="left">领航</td><td>47.1%</td><td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:47.1%"></div></div></td></tr>
+            <tr><td class="left">自然流</td><td>46.2%</td><td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:46.2%"></div></div></td></tr>
+            <tr><td class="left">最小年轮</td><td>45.5%</td><td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:45.5%"></div></div></td></tr>
+            <tr><td class="left">合肥徽起</td><td>37.5%</td><td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:37.5%"></div></div></td></tr>
+            <tr><td class="left">格物致知</td><td>33.3%</td><td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:33.3%"></div></div></td></tr>
+            <tr><td class="left">山东深山</td><td>20.0%</td><td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:20%"></div></div></td></tr>
+            <tr><td class="left">申坤</td><td>0.0%</td><td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:0%"></div></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="t2-col">
+        <h4>按年级</h4>
+        <table>
+          <thead><tr><th>年级</th><th>活跃率</th><th>进度条</th></tr></thead>
+          <tbody>
+            <tr><td class="left">初三</td><td>47.6%</td><td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:47.6%"></div></div></td></tr>
+            <tr><td class="left">新高一</td><td>32.8%</td><td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:32.8%"></div></div></td></tr>
+            <tr><td class="left">新高二</td><td>18.0%</td><td><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:18%"></div></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="amaze-note">* T+2 活跃率基于全量正常班（1568 单）计算</div>
+</div>
+
+<!-- ⑦ 城市线级分布（05/19）-->
+<div class="section">
+  <div class="section-title">⑦ 城市线级分布（05/19 正常班）</div>
+  <div class="section-body">
+    <div class="city-bar-wrap">
+      <!-- 三线城市: 初三92 -->
+      <div class="city-row">
+        <div class="city-label">三线城市</div>
+        <div class="city-bar" style="width: calc(100% - 100px)">
+          <div class="city-seg seg-c9" style="width:100%">92</div>
+        </div>
+        <div class="city-total">92</div>
+      </div>
+      <!-- 四线城市: 初三61 -->
+      <div class="city-row">
+        <div class="city-label">四线城市</div>
+        <div class="city-bar" style="width: calc(100% - 100px)">
+          <div class="city-seg seg-c9" style="width:100%">61</div>
+        </div>
+        <div class="city-total">61</div>
+      </div>
+      <!-- 新一线: 初三49, 高一1, 高二2 -->
+      <div class="city-row">
+        <div class="city-label">新一线</div>
+        <div class="city-bar" style="width: calc(100% - 100px)">
+          <div class="city-seg seg-c9" style="width:94.2%">49</div>
+          <div class="city-seg seg-c10" style="width:1.9%">1</div>
+          <div class="city-seg seg-c11" style="width:3.9%">2</div>
+        </div>
+        <div class="city-total">52</div>
+      </div>
+      <!-- 二线: 初三51 -->
+      <div class="city-row">
+        <div class="city-label">二线城市</div>
+        <div class="city-bar" style="width: calc(100% - 100px)">
+          <div class="city-seg seg-c9" style="width:100%">51</div>
+        </div>
+        <div class="city-total">51</div>
+      </div>
+      <!-- 五线: 初三32 -->
+      <div class="city-row">
+        <div class="city-label">五线城市</div>
+        <div class="city-bar" style="width: calc(100% - 100px)">
+          <div class="city-seg seg-c9" style="width:100%">32</div>
+        </div>
+        <div class="city-total">32</div>
+      </div>
+      <!-- 一线: 初三8 -->
+      <div class="city-row">
+        <div class="city-label">一线城市</div>
+        <div class="city-bar" style="width: calc(100% - 100px)">
+          <div class="city-seg seg-c9" style="width:100%">8</div>
+        </div>
+        <div class="city-total">8</div>
+      </div>
+      <!-- 其他 -->
+      <div class="city-row">
+        <div class="city-label">其他城市</div>
+        <div class="city-bar" style="width: calc(100% - 100px)">
+          <div class="city-seg seg-c9" style="width:100%">2</div>
+        </div>
+        <div class="city-total">2</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;">
+      <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:#555">
+        <span style="width:12px;height:12px;background:#1a3a6b;border-radius:2px;display:inline-block"></span>初三
+      </span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:#555">
+        <span style="width:12px;height:12px;background:#3a6bc0;border-radius:2px;display:inline-block"></span>新高一
+      </span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:#555">
+        <span style="width:12px;height:12px;background:#6a9be0;border-radius:2px;display:inline-block"></span>新高二
+      </span>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:16px;font-size:11px;color:#aaa;">
+  春12期（05/19）正常班快照 · 生成于 2026-05-20
+</div>
+
+</body>
+</html>
